@@ -1,0 +1,170 @@
+@import "./mixin";
+@import "./animations";
+
+@boxWarpPrefixCls: sq-transition;
+@view-transition-distance:        125px; // TODO: 375/3 (375 = width of iPhone 6)
+@view-transition-duration:        500ms; // emulate iOS
+@view-transition-timing-function: cubic-bezier(.36, .66, .04, 1); // emulate iOS
+
+@zindex-view-bottom:         10;
+@zindex-view-top:            20;
+@zindex-navigationbar:       30;
+
+
+.@{boxWarpPrefixCls} {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  overflow: hidden;
+  #flexbox .flex(1,1,0);
+
+  &-view{
+    #flexbox .display-flex();
+    #flexbox .flex-direction(column);
+    width: 100%;
+    height: 100%;
+    background-color: #f6f6f7;
+    line-height: 1;
+    overflow: hidden;
+    position: absolute;
+
+    // stop weird text rendering issue after transform/animation end
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    // prepare the element for animation
+    .translateZ(0);
+  }
+
+
+  // Animation
+  // ------------------------------
+
+  // React's CSSTransitionGroup requires an animation so we transition from .99 opacity to 1 with "artificial"
+
+  // transition: instant (default)
+  &-instant-enter-active { .animation( artificial 10ms ); }
+  &-instant-leave { .animation( fadeOut 60ms ); }
+
+  // transition: fade
+  &-fade-enter-active { .animation( artificial 10ms ); }
+  &-fade-leave { .animation( fadeOut 340ms ); }
+
+  // transition: fade expand
+
+  &-fade-expand-enter-active { .animation( artificial 10ms ); }
+  &-fade-expand-leave { .animation( fadeExpand 340ms ); }
+
+  // transition: fade contract
+
+  &-fade-contract-enter-active { .animation( artificial 10ms ); }
+  &-fade-contract-leave { .animation( fadeContract 340ms ); }
+
+  // SHOW
+  // ====
+
+  // common stacking context
+
+  &-show-from-top-enter-active,
+  &-show-from-right-enter-active,
+  &-show-from-bottom-enter-active,
+  &-show-from-left-enter-active {
+    pointer-events: none; // disable user interaction whilst views are transitioning
+    z-index: @zindex-view-top;
+  }
+
+  &-reveal-from-top-leave,
+  &-reveal-from-right-leave,
+  &-reveal-from-bottom-leave,
+  &-reveal-from-left-leave {
+    pointer-events: none; // disable user interaction whilst views are transitioning
+    z-index: @zindex-view-bottom;
+  }
+
+  // common animation components
+
+  &-show-from-top-enter-active,
+  &-show-from-top-leave,
+  &-show-from-bottom-enter-active,
+  &-show-from-bottom-leave {
+    .animation-duration( @view-transition-duration );
+    .animation-timing-function( @view-transition-timing-function );
+  }
+  &-show-from-left-enter-active,
+  &-show-from-left-leave,
+  &-show-from-right-enter-active,
+  &-show-from-right-leave {
+    .animation-duration( @view-transition-duration );
+    .animation-timing-function( @view-transition-timing-function );
+  }
+
+  // blank state
+
+  &-show-from-top-leave,
+  &-show-from-bottom-leave   { .animation-name( artificial ); }
+
+  // variants
+
+  &-show-from-top-enter-active      { .animation-name( viewShowFromTopEnter ); }
+  &-show-from-right-enter-active    { .animation-name( viewShowFromRightEnter ); }
+  &-show-from-bottom-enter-active   { .animation-name( viewShowFromBottomEnter ); }
+  &-show-from-left-enter-active     { .animation-name( viewShowFromLeftEnter ); }
+
+  &-show-from-left-leave     { .animation-name( viewShowFromLeftLeave ); }
+  &-show-from-right-leave    { .animation-name( viewShowFromRightLeave ); }
+
+  // REVEAL
+  // ======
+
+  // common stacking context
+
+  &-reveal-from-top-enter-active,
+  &-reveal-from-right-enter-active,
+  &-reveal-from-bottom-enter-active,
+  &-reveal-from-left-enter-active {
+    pointer-events: none; // disable user interaction whilst views are transitioning
+    z-index: @zindex-view-bottom;
+  }
+
+  &-reveal-from-top-leave,
+  &-reveal-from-right-leave,
+  &-reveal-from-bottom-leave,
+  &-reveal-from-left-leave {
+    pointer-events: none; // disable user interaction whilst views are transitioning
+    z-index: @zindex-view-top;
+  }
+
+  // common animation components
+
+  &-reveal-from-top-enter-active,
+  &-reveal-from-top-leave,
+  &-reveal-from-bottom-enter-active,
+  &-reveal-from-bottom-leave {
+    .animation-duration( @view-transition-duration );
+    .animation-timing-function( @view-transition-timing-function );
+  }
+  &-reveal-from-left-enter-active,
+  &-reveal-from-left-leave,
+  &-reveal-from-right-enter-active,
+  &-reveal-from-right-leave {
+    .animation-duration( @view-transition-duration );
+    .animation-timing-function( @view-transition-timing-function );
+  }
+
+  // blank state
+
+  &-reveal-from-top-enter-active,
+  &-reveal-from-bottom-enter-active   { .animation-name( artificial ); }
+
+  // variants
+
+  &-reveal-from-top-leave      { .animation-name( viewRevealFromTopLeave ); }
+  &-reveal-from-right-leave    { .animation-name( viewRevealFromRightLeave ); }
+  &-reveal-from-bottom-leave   { .animation-name( viewRevealFromBottomLeave ); }
+  &-reveal-from-left-leave     { .animation-name( viewRevealFromLeftLeave ); }
+
+  &-reveal-from-left-enter-active     { .animation-name( viewRevealFromLeftEnter ); }
+  &-reveal-from-right-enter-active    { .animation-name( viewRevealFromRightEnter ); }
+
+}

@@ -2,6 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SQTransition from '../src/sq-transition';
 
+const animation = [
+    'fade', 'fade-expand', 'fade-contract',
+    'show-from-left', 'show-from-right', 'show-from-top', 'show-from-bottom',
+    'reveal-from-left', 'reveal-from-right', 'reveal-from-top', 'reveal-from-bottom'
+];
 
 var App = React.createClass({
 
@@ -12,31 +17,25 @@ var App = React.createClass({
         }
     },
 
-    onTransitionToA(){
+    onTransition(){
+        let transitionName = animation[Math.floor(Math.random() * animation.length)];
+        let current = this.state.current == 'A' ? 'B' : 'A';
         this.setState({
-            current: 'A',
+            current: current,
             enableTransition: true,
-            transitionName: 'show-from-left',
+            transitionName: transitionName
         })
     },
-    onTransitionToB(){
-        this.setState({
-            current: 'B',
-            enableTransition: true,
-            transitionName: 'show-from-right'
-        })
-    },
+
     render () {
         let {enableTransition,current,transitionName}=this.state;
         let Component = current == 'A' ? BoxA : BoxB;
         return (
-            <div >
+            <div>
+                <h4>Animation Name: {transitionName}</h4>
                 <ul>
                     <li>
-                        <button type='button' onClick={this.onTransitionToB}>transition To B</button>
-                    </li>
-                    <li>
-                        <button type='button' onClick={this.onTransitionToA}>transition To A</button>
+                        <button type='button' onClick={this.onTransition}>Do Transition</button>
                     </li>
                 </ul>
                 <div style={{ background: '#ccc', width: 600, height: 640, padding: 10 }}>
@@ -57,7 +56,7 @@ var App = React.createClass({
 var BoxA = React.createClass({
     render () {
         return (
-            <div style={{ background: '#EF9393',padding:30 }}>
+            <div style={{ background: '#EF9393',height:'100%' }}>
                 <span>BoxA</span>
             </div>
         );
@@ -67,7 +66,7 @@ var BoxA = React.createClass({
 var BoxB = React.createClass({
     render () {
         return (
-            <div style={{ background: '#ddd',padding:30  }}>
+            <div style={{ background: '#ddd',height:'100%'}}>
                 <span>BoxB</span>
             </div>
         );

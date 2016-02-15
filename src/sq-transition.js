@@ -8,6 +8,7 @@ const Transition = React.createClass({
 
     propTypes: {
         prefixCls: PropTypes.string,
+        viewKey: PropTypes.string.isRequired,
         transitionName: PropTypes.oneOf([
             'fade', 'fade-expand', 'fade-contract',
             'show-from-left', 'show-from-right', 'show-from-top', 'show-from-bottom',
@@ -16,8 +17,7 @@ const Transition = React.createClass({
         transitionDurationEnter: PropTypes.number,
         transitionDurationLeave: PropTypes.number,
         transitionEnterEnabled: PropTypes.bool,
-        transitionLeaveEnabled: PropTypes.bool,
-        viewKey: PropTypes.string
+        transitionLeaveEnabled: PropTypes.bool
     },
     getDefaultProps(){
         return {

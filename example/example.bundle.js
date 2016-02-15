@@ -60,6 +60,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var animation = ['fade', 'fade-expand', 'fade-contract', 'show-from-left', 'show-from-right', 'show-from-top', 'show-from-bottom', 'reveal-from-left', 'reveal-from-right', 'reveal-from-top', 'reveal-from-bottom'];
+
 	var App = _react2.default.createClass({
 	    displayName: 'App',
 	    getInitialState: function getInitialState() {
@@ -68,18 +70,13 @@
 	            enableTransition: false
 	        };
 	    },
-	    onTransitionToA: function onTransitionToA() {
+	    onTransition: function onTransition() {
+	        var transitionName = animation[Math.floor(Math.random() * animation.length)];
+	        var current = this.state.current == 'A' ? 'B' : 'A';
 	        this.setState({
-	            current: 'A',
+	            current: current,
 	            enableTransition: true,
-	            transitionName: 'show-from-left'
-	        });
-	    },
-	    onTransitionToB: function onTransitionToB() {
-	        this.setState({
-	            current: 'B',
-	            enableTransition: true,
-	            transitionName: 'show-from-right'
+	            transitionName: transitionName
 	        });
 	    },
 	    render: function render() {
@@ -93,6 +90,12 @@
 	            'div',
 	            null,
 	            _react2.default.createElement(
+	                'h4',
+	                null,
+	                'Animation Name: ',
+	                transitionName
+	            ),
+	            _react2.default.createElement(
 	                'ul',
 	                null,
 	                _react2.default.createElement(
@@ -100,17 +103,8 @@
 	                    null,
 	                    _react2.default.createElement(
 	                        'button',
-	                        { type: 'button', onClick: this.onTransitionToB },
-	                        'transition To B'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                        'button',
-	                        { type: 'button', onClick: this.onTransitionToA },
-	                        'transition To A'
+	                        { type: 'button', onClick: this.onTransition },
+	                        'Do Transition'
 	                    )
 	                )
 	            ),
@@ -137,7 +131,7 @@
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'div',
-	            { style: { background: '#EF9393', padding: 30 } },
+	            { style: { background: '#EF9393', height: '100%' } },
 	            _react2.default.createElement(
 	                'span',
 	                null,
@@ -152,7 +146,7 @@
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'div',
-	            { style: { background: '#ddd', padding: 30 } },
+	            { style: { background: '#ddd', height: '100%' } },
 	            _react2.default.createElement(
 	                'span',
 	                null,
@@ -19798,12 +19792,12 @@
 
 	    propTypes: {
 	        prefixCls: _react.PropTypes.string,
+	        viewKey: _react.PropTypes.string.isRequired,
 	        transitionName: _react.PropTypes.oneOf(['fade', 'fade-expand', 'fade-contract', 'show-from-left', 'show-from-right', 'show-from-top', 'show-from-bottom', 'reveal-from-left', 'reveal-from-right', 'reveal-from-top', 'reveal-from-bottom']),
 	        transitionDurationEnter: _react.PropTypes.number,
 	        transitionDurationLeave: _react.PropTypes.number,
 	        transitionEnterEnabled: _react.PropTypes.bool,
-	        transitionLeaveEnabled: _react.PropTypes.bool,
-	        viewKey: _react.PropTypes.string
+	        transitionLeaveEnabled: _react.PropTypes.bool
 	    },
 	    getDefaultProps: function getDefaultProps() {
 	        return {

@@ -1,6 +1,6 @@
 {
   "name": "sq-transition",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "a transition component for child component change",
   "main": "index.js",
   "dependencies": {

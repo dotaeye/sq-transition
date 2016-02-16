@@ -1,1 +1,1 @@
-module.exports = require('./src/sq-transition');
+module.exports = require('./lib/sq-transition');
